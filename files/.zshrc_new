@@ -4,6 +4,14 @@
 # Enable completion (Oh My Zsh usually runs this for you).
 autoload -Uz compinit && compinit
 
+# Colorized ls (aligned with Oh My Zsh defaults).
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+if ls --color -d . >/dev/null 2>&1; then
+  alias ls='ls --color=auto'
+elif ls -G -d . >/dev/null 2>&1; then
+  alias ls='ls -G'
+fi
+
 # --- plugins (manual) ---
 # zsh-autosuggestions
 if [[ -r "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then

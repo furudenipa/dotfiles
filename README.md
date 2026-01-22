@@ -11,9 +11,16 @@ files: 配置される設定ファイルをまとめたフォルダ
 ```
 files/
 ├── .zshrc
+├── .zshrc_new
 └── .ssh/
     └── config
 ```
+
+## zshrc 周辺のセットアップ
+
+- `files/.zshrc_new`: Oh My Zsh 依存を外した zshrc（手動でプラグインを読み込む前提）
+- `install-zshrc-plugins.sh`: zshrc 用プラグイン（`zsh-autosuggestions` / `zsh-syntax-highlighting`）を
+  固定バージョンで `~/.zsh/` に配置するスクリプト
 
 ## link について
 
