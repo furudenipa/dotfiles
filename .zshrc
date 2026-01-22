@@ -37,13 +37,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# MyPrompt
-function git_prompt_info_with_space() {
-  local info=$(git_prompt_info)
-  [[ -n $info ]] && echo " ${info#git}"  # "git:"を含む場合でも重複しないよう調整
-}
+autoload -Uz vcs_info
+setopt PROMPT_SUBST
 
-PROMPT='%F{white}%n@%m %F{green}%~%f$(git_prompt_info_with_space) '
+zstyle ':vcs_info:git:*' formats ' %F{204}(%b)%f'
+zstyle ':vcs_info:*' enable git
+precmd() { vcs_info }
+
+PROMPT='%F{white}%n@%m %F{green}%~%f${vcs_info_msg_0_} '
 
 # --- secrets ---
 local _secrets_file="$HOME/.config/secrets/zsh.env"
@@ -63,3 +64,9 @@ alias kd='kubectl describe'
 
 # Created by `pipx` on 2025-05-03 13:43:24
 export PATH="$HOME/.local/bin:$PATH"
+
+# fastfetch
+[[ -o interactive ]] && fastfetch
+
+# Added by Antigravity
+export PATH="/Users/mk/.antigravity/antigravity/bin:$PATH"
