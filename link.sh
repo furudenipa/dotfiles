@@ -1,7 +1,8 @@
 #!/bin/zsh
 
 files_and_paths=(
-  ".zshrc:~/.zshrc"
+  "files/.zshrc:~/.zshrc"
+  "files/.ssh/config:~/.ssh/config"
 )
 
 # シンボリックリンクを作成する関数
