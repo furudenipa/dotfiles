@@ -1,12 +1,18 @@
 source "$ROOT/lib/env.zsh"
+source "$ROOT/lib/link.zsh"
 
 _install() {
   if is_macos; then
     if command -v fastfetch >/dev/null 2>&1; then
       info "fastfetch is already installed."
-      return 0
+    else
+      brew install fastfetch
     fi
-    brew install fastfetch
+    mkdir -p "$HOME/.config/fastfetch"
+    link_files \
+      "$ROOT/files/.config/fastfetch/config.jsonc:$HOME/.config/fastfetch/config.jsonc" \
+      "$ROOT/files/.config/fastfetch/logo.txt:$HOME/.config/fastfetch/logo.txt"
+    info "fastfetch configuration linked."
     return 0
   fi
 
