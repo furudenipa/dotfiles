@@ -4,7 +4,21 @@ create_symlink() {
   local destination_path="$2"
   local backup_file="${destination_path}.bak"
 
-  if [[ -e "$destination_path" ]]; then
+  if [[ -e "$destination_path" || -L "$destination_path" ]]; then
+    # If a .bak already exists, create a timestamped backup to avoid clobbering it.
+    if [[ -e "$backup_file" ]]; then
+      local timestamp candidate i
+      timestamp="$(date "+%Y%m%d-%H%M%S")"
+      candidate="${backup_file}.${timestamp}"
+      if [[ -e "$candidate" ]]; then
+        i=1
+        while [[ -e "${candidate}.${i}" ]]; do
+          ((i++))
+        done
+        candidate="${candidate}.${i}"
+      fi
+      backup_file="$candidate"
+    fi
     mv "$destination_path" "$backup_file"
   fi
 
