@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 source "$ROOT/lib/env.zsh"
+source "$ROOT/lib/log.zsh"
 
 profile=""
 
