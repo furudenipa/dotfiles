@@ -1,17 +1,8 @@
-#!/usr/bin/env zsh
 set -euo pipefail
 
-if [[ -z "${ROOT-}" ]]; then
-  ROOT="$(cd "$(dirname "${(%):-%N}")/.." && pwd)"
-fi
-
-if [[ -f "$ROOT/lib/log.zsh" ]]; then
-  source "$ROOT/lib/log.zsh"
-fi
-
-if [[ -z "${OS_NAME-}" ]]; then
-  OS_NAME="$(uname -s)"
-fi
+ROOT="$(cd "$(dirname "${(%):-%N}")/.." && pwd)"
+source "$ROOT/lib/log.zsh"
+OS_NAME="$(uname -s)"
 
 is_macos() { [[ "$OS_NAME" == "Darwin" ]]; }
 is_linux() { [[ "$OS_NAME" == "Linux"  ]]; }

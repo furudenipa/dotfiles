@@ -1,4 +1,3 @@
-#!/bin/zsh
 info () {
   printf "\r  [ \033[00;37m..\033[0m ] %s\n" "$1"
 }
@@ -18,5 +17,5 @@ warn () {
 fail () {
   printf "\r  [\033[0;31mFAIL\033[0m] %s\n" "$1"
   echo ''
-  exit
+  exit 1
 }

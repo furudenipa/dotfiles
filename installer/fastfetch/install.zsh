@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -euo pipefail
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
