@@ -1,6 +1,10 @@
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${(%):-%N}")/.." && pwd)"
+if [[ -z "${ROOT-}" ]]; then
+  echo "ROOT is not set. Set ROOT before sourcing lib/env.zsh." >&2
+  exit 1
+fi
+
 source "$ROOT/lib/log.zsh"
 OS_NAME="$(uname -s)"
 
@@ -19,6 +23,7 @@ load_profile() {
       return 0
     fi
     fail "profile already loaded: $PROFILE_NAME (cannot load: $profile)"
+    return 1
   fi
 
   PROFILE_NAME="$profile"
@@ -60,6 +65,7 @@ profile_require() {
   local key="$1"
   if [[ -z "${PROFILE[$key]-}" ]]; then
     fail "profile key missing: $key"
+    return 1
   fi
   echo "${PROFILE[$key]}"
 }
