@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Install zsh plugins used by .zshrc (pinned versions, no git submodules).
 
-BASE_DIR="$HOME/.zsh"
+BASE_DIR="$HOME/.zsh/plugins"
 
 ZSH_AUTOSUGGESTIONS_REPO="zsh-users/zsh-autosuggestions"
 ZSH_AUTOSUGGESTIONS_VERSION="v0.7.1"

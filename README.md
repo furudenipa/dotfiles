@@ -20,9 +20,13 @@ files/
 
 - `files/.zshrc_new`: Oh My Zsh 依存を外した zshrc（手動でプラグインを読み込む前提）
 - `install-zshrc-plugins.zsh`: zshrc 用プラグイン（`zsh-autosuggestions` / `zsh-syntax-highlighting`）を
-  固定バージョンで `~/.zsh/` に配置するスクリプト
+  固定バージョンで `~/.zsh/plugins/` に配置するスクリプト
 
 ## link について
 
 `lib/link.zsh` はシンボリックリンク作成用の関数を提供します。  
 既に同名のファイルがある場合は `<ファイル名>.bak` として退避したうえでリンクを作成します。
+
+## メモ
+
+- 興味のあるツール: gh, ghq

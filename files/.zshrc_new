@@ -13,9 +13,10 @@ elif ls -G -d . >/dev/null 2>&1; then
 fi
 
 # --- plugins (manual) ---
+ZSH_PLUGIN_DIR="$HOME/.zsh/plugins"
 # zsh-autosuggestions
-if [[ -r "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-  source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [[ -r "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 
@@ -58,6 +59,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/Users/mk/.antigravity/antigravity/bin:$PATH"
 
 # zsh-syntax-highlighting (must be sourced last)
-if [[ -r "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-  source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [[ -r "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
