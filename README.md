@@ -30,3 +30,20 @@ files/
 ## メモ
 
 - 興味のあるツール: gh, ghq
+
+## installer を書かないといけないもの
+
+- gh
+- ghq
+- fonts
+- uv
+- go
+- ghostty
+- jq
+- yq
+- python
+
+## 存在を前提とするもの
+
+- curl
+- brew
