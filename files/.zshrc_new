@@ -7,9 +7,9 @@ autoload -Uz compinit && compinit
 # Colorized ls (aligned with Oh My Zsh defaults).
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
 if ls --color -d . >/dev/null 2>&1; then
-  alias ls='ls --color=auto'
+  alias ls='ls -l --color=auto'
 elif ls -G -d . >/dev/null 2>&1; then
-  alias ls='ls -G'
+  alias ls='ls -lG'
 fi
 
 # --- plugins (manual) ---
@@ -55,6 +55,13 @@ export PATH="$HOME/.local/bin:$PATH"
 # fastfetch
 [[ -o interactive ]] && fastfetch
 
+# iTerm2 shell integration
+ITERM2_INTEGRATION="$HOME/.zsh/iterm2/iterm2_shell_integration.zsh"
+if [[ $TERM_PROGRAM == "iTerm.app" && -f "$ITERM2_INTEGRATION" ]]; then
+  source "$ITERM2_INTEGRATION"
+fi
+unset ITERM2_INTEGRATION
+
 # Added by Antigravity
 export PATH="/Users/mk/.antigravity/antigravity/bin:$PATH"
 
@@ -62,3 +69,16 @@ export PATH="/Users/mk/.antigravity/antigravity/bin:$PATH"
 if [[ -r "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
   source "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
+
+# repo: ghq管理リポジトリへfzfで移動
+repo() {
+  command -v ghq >/dev/null || { echo "ghq not found"; return 127; }
+  command -v fzf >/dev/null || { echo "fzf not found"; return 127; }
+
+  local selected full
+  selected=$(ghq list | fzf --reverse --query "$*") || return 0
+  [[ -n "$selected" ]] || return 0
+
+  full=$(ghq list --full-path --exact "$selected") || return 1
+  cd "$full" || return 1
+}
