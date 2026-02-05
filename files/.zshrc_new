@@ -49,6 +49,30 @@ alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
 
+# dotfiles install wrapper (only when repo root is current directory)
+install() {
+  if [[ -f "$PWD/install.zsh" && -d "$PWD/installers" ]]; then
+    command zsh "$PWD/install.zsh" "$@"
+    return $?
+  fi
+  command install "$@"
+}
+
+_dotfiles_install() {
+  if [[ -f "$PWD/install.zsh" && -d "$PWD/installers" ]]; then
+    local -a pkgs
+    local -a profiles
+    pkgs=(${(f)"$(command ls -1 "$PWD"/installers/*.zsh 2>/dev/null | sed 's#.*/##;s#\\.zsh$##')"})
+    profiles=(${(f)"$(command ls -1 "$PWD"/profiles/*.yaml 2>/dev/null | sed 's#.*/##;s#\\.yaml$##')"})
+    _arguments -s \
+      "-P[profile]:profile:(${profiles})" \
+      "1:package:(${pkgs})"
+    return
+  fi
+  _files
+}
+compdef _dotfiles_install install
+
 # Created by `pipx` on 2025-05-03 13:43:24
 export PATH="$HOME/.local/bin:$PATH"
 
