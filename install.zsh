@@ -16,6 +16,7 @@ done
 shift $((OPTIND - 1))
 
 pkg="${1:-}"
+pkg="${pkg%.zsh}"
 if [[ -z "$pkg" ]]; then
   fail "usage: install.zsh [-P <profile>] <package>"
   exit 1
