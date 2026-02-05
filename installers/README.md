@@ -3,6 +3,21 @@
 `installers/` 配下のファイルは `setup.zsh` / `install.zsh` から `source` され、
 `_install()` を呼ばれることを前提にします（直接実行しない）。
 
+## 設計意図（なぜ `source` + `_install()` なのか）
+
+- **同一シェルの文脈を共有したい**ため  
+  `install.zsh` / `setup.zsh` で用意した `ROOT`、`info` / `fail`、`is_macos`、`set -e` などを
+  installer 側でそのまま使えるようにする（`zsh installers/foo.zsh` だと別プロセスなので引き継がれない）。
+- **読み込みと実行を分離したい**ため  
+  `source` した瞬間に実行されるのを避け、`_install()` を呼ぶまで副作用を起こさない。
+- **失敗ハンドリングを統一したい**ため  
+  `_install()` の戻り値を `if ! _install; then ...` で一貫して扱える。  
+  トップレベルで `return`/`exit` すると、`source` 自体がその時点で終了し、
+  `return 1` は `source` の終了コードになり、`set -e` のもとでは
+  **条件文に包まれていない `source` が非ゼロで終わると、その場でスクリプト全体が終了する**。  
+  `exit` は `install.zsh` / `setup.zsh` 全体を終了させてしまうため、
+  「失敗は拾って継続する／統一的に扱う」という制御が難しくなる。
+
 ## 必須ルール（既存実装準拠）
 
 - 各 installer は必ず `_install()` を定義する
