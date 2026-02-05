@@ -94,8 +94,8 @@ if [[ -r "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]
   source "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# repo: ghq管理リポジトリへfzfで移動
-repo() {
+# cr: ghq管理リポジトリへfzfで移動
+cr() {
   command -v ghq >/dev/null || { echo "ghq not found"; return 127; }
   command -v fzf >/dev/null || { echo "fzf not found"; return 127; }
 
