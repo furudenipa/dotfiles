@@ -29,3 +29,10 @@ palette = 12=#a6aaf1
 palette = 13=#e07de0
 palette = 14=#5ffdff
 palette = 15=#feffff
+
+# Cmd + 矢印キー で分割した画面を「移動」
+keybind = cmd+left=goto_split:left
+keybind = cmd+right=goto_split:right
+keybind = cmd+up=goto_split:top
+keybind = cmd+down=goto_split:bottom
+
