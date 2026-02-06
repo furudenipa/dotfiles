@@ -29,7 +29,6 @@ files/
 
 ## installer を書かないといけないもの
 
-- gh
 - uv
 - go
 - python
