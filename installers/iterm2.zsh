@@ -6,7 +6,7 @@ _install() {
     local dest_file="$dest_dir/iterm2_shell_integration.zsh"
 
     if [[ -f "$dest_file" ]]; then
-      info "iTerm2 shell integration already exists."
+      info "iterm2 shell integration is already installed."
       return 0
     fi
 
@@ -15,6 +15,6 @@ _install() {
     return 0
   fi
 
-  fail "iTerm2 is supported on macOS only."
+  fail "unsupported OS: $OS_NAME"
   return 1
 }

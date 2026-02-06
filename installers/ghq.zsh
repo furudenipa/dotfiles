@@ -19,7 +19,7 @@ _install() {
   fi
 
   if is_linux; then
-    warn "ghq setup for Linux is not implemented yet."
+    warn "ghq for Linux is not implemented yet."
     fail "ghq installer for Linux is TODO."
     return 1
   fi

@@ -11,6 +11,6 @@ _install() {
     return 0
   fi
 
-  fail "supported on macOS only."
+  fail "unsupported OS: $OS_NAME"
   return 1
 }

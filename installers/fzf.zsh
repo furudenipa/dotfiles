@@ -12,7 +12,7 @@ _install() {
   fi
 
   if is_linux; then
-    warn "fzf setup for Linux is not implemented yet."
+    warn "fzf for Linux is not implemented yet."
     fail "fzf installer for Linux is TODO."
     return 1
   fi

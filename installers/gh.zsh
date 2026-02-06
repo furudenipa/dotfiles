@@ -12,7 +12,7 @@ _install() {
   fi
 
   if is_linux; then
-    warn "gh setup for Linux is not implemented yet."
+    warn "gh for Linux is not implemented yet."
     fail "gh installer for Linux is TODO."
     return 1
   fi

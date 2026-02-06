@@ -33,6 +33,13 @@ files/
 - go
 - python
 
+## installer のログ方針
+
+- すでにインストール済み: `info "<name> is already installed."`
+- OS が対象外: `fail "unsupported OS: $OS_NAME"`
+- 未実装 OS (Linux など): `warn "<name> for Linux is not implemented yet."` の後に
+  `fail "<name> installer for Linux is TODO."`
+
 ## 存在を前提とするもの
 
 - curl
