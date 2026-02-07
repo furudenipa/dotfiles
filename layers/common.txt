@@ -1,0 +1,3 @@
+# common layer (applied to all profiles)
+fastfetch
+git

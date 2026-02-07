@@ -1,3 +1,0 @@
-# common packages (applied to all profiles)
-fastfetch
-git

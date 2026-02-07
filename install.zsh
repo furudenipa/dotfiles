@@ -10,15 +10,15 @@ profile=""
 while getopts "P:" opt; do
   case "$opt" in
     P) profile="$OPTARG" ;;
-    *) fail "usage: install.zsh [-P <profile>] <package>"; exit 1 ;;
+    *) fail "usage: install.zsh [-P <profile>] <installer>"; exit 1 ;;
   esac
 done
 shift $((OPTIND - 1))
 
-pkg="${1:-}"
-pkg="${pkg%.zsh}"
-if [[ -z "$pkg" ]]; then
-  fail "usage: install.zsh [-P <profile>] <package>"
+installer_name="${1:-}"
+installer_name="${installer_name%.zsh}"
+if [[ -z "$installer_name" ]]; then
+  fail "usage: install.zsh [-P <profile>] <installer>"
   exit 1
 fi
 
@@ -29,16 +29,16 @@ if [[ -n "$profile" ]]; then
   fi
 fi
 
-installer="$ROOT/installers/${pkg}.zsh"
-if [[ ! -f "$installer" ]]; then
-  fail "installer not found: $pkg"
+installer_path="$ROOT/installers/${installer_name}.zsh"
+if [[ ! -f "$installer_path" ]]; then
+  fail "installer not found: $installer_name"
   exit 1
 fi
 
-info "install: $pkg"
-source "$installer"
+info "install: $installer_name"
+source "$installer_path"
 if ! _install; then
-  fail "install failed: $pkg"
+  fail "install failed: $installer_name"
   exit 1
 fi
-success "install: $pkg"
+success "install: $installer_name"

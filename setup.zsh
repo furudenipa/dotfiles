@@ -26,28 +26,28 @@ if ! load_profile "$profile"; then
   exit 1
 fi
 
-if [[ ! -f "$ROOT/packages/common.txt" ]]; then
-  fail "packages file not found: common.txt"
+if [[ ! -f "$ROOT/layers/common.txt" ]]; then
+  fail "layer file not found: common.txt"
   exit 1
 fi
 
-if [[ ! -f "$ROOT/packages/${profile}.txt" ]]; then
-  fail "packages file not found: ${profile}.txt"
+if [[ ! -f "$ROOT/layers/${profile}.txt" ]]; then
+  fail "layer file not found: ${profile}.txt"
   exit 1
 fi
 
-while IFS= read -r pkg; do
-  [[ -z "$pkg" ]] && continue
-  info "install: $pkg"
-  installer="$ROOT/installers/${pkg}.zsh"
-  if [[ ! -f "$installer" ]]; then
-    fail "installer not found: $pkg"
+while IFS= read -r installer_name; do
+  [[ -z "$installer_name" ]] && continue
+  info "install: $installer_name"
+  installer_path="$ROOT/installers/${installer_name}.zsh"
+  if [[ ! -f "$installer_path" ]]; then
+    fail "installer not found: $installer_name"
     continue
   fi
-  source "$installer"
+  source "$installer_path"
   if ! _install; then
-    fail "install failed: $pkg"
+    fail "install failed: $installer_name"
     continue
   fi
-  success "install: $pkg"
-done < <(cat "$ROOT/packages/common.txt" "$ROOT/packages/${profile}.txt" | sed '/^\s*#/d;/^\s*$/d')
+  success "install: $installer_name"
+done < <(cat "$ROOT/layers/common.txt" "$ROOT/layers/${profile}.txt" | sed '/^\s*#/d;/^\s*$/d')
