@@ -26,28 +26,37 @@ if ! load_profile "$profile"; then
   exit 1
 fi
 
-if [[ ! -f "$ROOT/layers/common.txt" ]]; then
-  fail "layer file not found: common.txt"
+layers=()
+if ! (( ${+PROFILE_LAYERS} )); then
+  fail "PROFILE_LAYERS is not defined."
   exit 1
 fi
-
-if [[ ! -f "$ROOT/layers/${profile}.txt" ]]; then
-  fail "layer file not found: ${profile}.txt"
+if (( ${#PROFILE_LAYERS[@]} == 0 )); then
+  fail "PROFILE_LAYERS is empty."
   exit 1
 fi
+layers=("${PROFILE_LAYERS[@]}")
 
-while IFS= read -r installer_name; do
-  [[ -z "$installer_name" ]] && continue
-  info "install: $installer_name"
-  installer_path="$ROOT/installers/${installer_name}.zsh"
-  if [[ ! -f "$installer_path" ]]; then
-    fail "installer not found: $installer_name"
-    continue
+for layer in "${layers[@]}"; do
+  layer_file="$ROOT/layers/${layer}"
+  if [[ ! -f "$layer_file" ]]; then
+    fail "layer file not found: $layer"
+    exit 1
   fi
-  source "$installer_path"
-  if ! _install; then
-    fail "install failed: $installer_name"
-    continue
-  fi
-  success "install: $installer_name"
-done < <(cat "$ROOT/layers/common.txt" "$ROOT/layers/${profile}.txt" | sed '/^\s*#/d;/^\s*$/d')
+
+  while IFS= read -r installer_name; do
+    [[ -z "$installer_name" ]] && continue
+    info "install: $installer_name"
+    installer_path="$ROOT/installers/${installer_name}.zsh"
+    if [[ ! -f "$installer_path" ]]; then
+      fail "installer not found: $installer_name"
+      continue
+    fi
+    source "$installer_path"
+    if ! _install; then
+      fail "install failed: $installer_name"
+      continue
+    fi
+    success "install: $installer_name"
+  done < <(sed '/^\s*#/d;/^\s*$/d' "$layer_file")
+done

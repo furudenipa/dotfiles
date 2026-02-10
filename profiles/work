@@ -1,0 +1,4 @@
+# work profile
+PROFILE_LAYERS=(core dev-util work)
+PROFILE_GIT_UNAME="Your Name"
+PROFILE_GIT_UEMAIL="work@example.com"
