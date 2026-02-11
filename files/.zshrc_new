@@ -27,6 +27,21 @@ export NVM_DIR="$HOME/.nvm"
 autoload -Uz vcs_info
 setopt PROMPT_SUBST
 
+# --- history ---
+# history の保存先と保持件数
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=20000
+export SAVEHIST=20000
+
+# タブ/ペイン/セッション間で history を共有
+setopt SHARE_HISTORY
+
+# 直前と重複するコマンドは記録しない
+setopt HIST_IGNORE_DUPS
+
+# 実行時刻などの拡張情報を保存
+setopt EXTENDED_HISTORY
+
 zstyle ':vcs_info:git:*' formats ' %F{204}(%b)%f'
 zstyle ':vcs_info:*' enable git
 precmd() { vcs_info }
