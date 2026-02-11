@@ -1,0 +1,8 @@
+# developer tools (currently macOS-only installers)
+gh
+ghq
+fzf
+jq
+yq
+tree
+fastfetch

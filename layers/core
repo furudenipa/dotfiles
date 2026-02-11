@@ -1,3 +1,2 @@
-# core layer (applied to all profiles)
-fastfetch
-git
+# core layer (OS / environment agnostic)
+fonts
