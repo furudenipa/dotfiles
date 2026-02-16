@@ -1,3 +1,6 @@
+# tip
+auto-update-channel = tip
+
 # Font
 font-family = HackNF-Regular
 font-size = 11
