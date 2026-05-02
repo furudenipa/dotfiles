@@ -78,7 +78,7 @@ _dotfiles_install() {
     local -a pkgs
     local -a profiles
     pkgs=(${(f)"$(command ls -1 "$PWD"/installers/*.zsh 2>/dev/null | sed 's#.*/##;s#\\.zsh$##')"})
-    profiles=(${(f)"$(command ls -1 "$PWD"/profiles/*.yaml 2>/dev/null | sed 's#.*/##;s#\\.yaml$##')"})
+    profiles=(${(f)"$(command find "$PWD"/profiles -maxdepth 1 -type f -exec basename {} \; 2>/dev/null)"})
     _arguments -s \
       "-P[profile]:profile:(${profiles})" \
       "1:package:(${pkgs})"
@@ -92,7 +92,7 @@ compdef _dotfiles_install install
 export PATH="$HOME/.local/bin:$PATH"
 
 # fastfetch
-[[ -o interactive ]] && fastfetch
+[[ -o interactive ]] && (( $+commands[fastfetch] )) && fastfetch
 
 # iTerm2 shell integration
 ITERM2_INTEGRATION="$HOME/.zsh/iterm2/iterm2_shell_integration.zsh"

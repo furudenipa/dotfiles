@@ -17,7 +17,7 @@ files/
 
 ## zshrc 周辺のセットアップ
 
-- `files/.zshrc_new`: Oh My Zsh 依存を外した zshrc（手動でプラグインを読み込む前提）
+- `files/.zshrc`: Oh My Zsh 依存を外した zshrc（手動でプラグインを読み込む前提）
 - `installers/zshrc.zsh`: `files/.zshrc` を `~/.zshrc` に symlink する installer
   - 既に同内容の symlink がある場合はスキップする
   - 既存の `~/.zshrc` を退避する場合は移動先をログに出す
