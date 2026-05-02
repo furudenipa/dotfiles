@@ -3,8 +3,16 @@ create_symlink() {
   source_file="$(realpath "$1")"
   local destination_path="$2"
   local backup_file="${destination_path}.bak"
+  local current_target
 
   if [[ -e "$destination_path" || -L "$destination_path" ]]; then
+    if [[ -L "$destination_path" ]]; then
+      current_target="$(realpath "$destination_path")"
+      if [[ "$current_target" == "$source_file" ]]; then
+        return 0
+      fi
+    fi
+
     # If a .bak already exists, create a timestamped backup to avoid clobbering it.
     if [[ -e "$backup_file" ]]; then
       local timestamp candidate i

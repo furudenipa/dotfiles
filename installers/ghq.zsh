@@ -3,6 +3,8 @@ source "$ROOT/lib/env.zsh"
 
 _install() {
   if is_macos; then
+    local current_root=""
+
     if ! command -v git >/dev/null 2>&1; then
       fail "git is required."
       return 1
@@ -14,7 +16,15 @@ _install() {
       brew install ghq
     fi
 
-    git config --global ghq.root "$HOME/src"
+    current_root="$(git config --global --get ghq.root 2>/dev/null || true)"
+    if [[ -z "$current_root" ]]; then
+      git config --global ghq.root "$HOME/src"
+      info "Set ghq.root to $HOME/src"
+    elif [[ "$current_root" == "$HOME/src" ]]; then
+      info "ghq.root is already set to $HOME/src"
+    else
+      warn "ghq.root is already set to $current_root; leaving it unchanged."
+    fi
     return 0
   fi
 

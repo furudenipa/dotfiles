@@ -19,6 +19,11 @@ _install_from_github_tag() {
   local archive="$tmp_dir/${name}.tar.gz"
   local url="https://github.com/${repo}/archive/refs/tags/${tag}.tar.gz"
 
+  if [[ -e "$dest_dir" || -L "$dest_dir" ]]; then
+    info "Plugin already exists, keeping current version: $dest_dir"
+    return 0
+  fi
+
   _download "$url" "$archive"
   tar -xzf "$archive" -C "$tmp_dir"
 
@@ -30,7 +35,6 @@ _install_from_github_tag() {
     return 1
   fi
 
-  rm -rf "$dest_dir"
   mv "$extracted_dir" "$dest_dir"
   rm -rf "$tmp_dir"
 }
