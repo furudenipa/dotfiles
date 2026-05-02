@@ -1,4 +1,4 @@
-# developer tools (currently macOS-only installers)
+# developer tools
 gh
 ghq
 fzf
@@ -6,3 +6,4 @@ jq
 yq
 tree
 fastfetch
+uv
