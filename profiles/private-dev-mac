@@ -1,4 +1,4 @@
 # private profile
-PROFILE_LAYERS=(core dev)
+PROFILE_LAYERS=(core dev dev-personal macos)
 PROFILE_GIT_UNAME="Your Name"
 PROFILE_GIT_UEMAIL="private@example.com"

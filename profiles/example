@@ -1,4 +1,4 @@
 # example profile
-PROFILE_LAYERS=(core dev-util work)
+PROFILE_LAYERS=(core dev dev-work macos)
 PROFILE_GIT_UNAME="Example User"
 PROFILE_GIT_UEMAIL="example@example.com"
