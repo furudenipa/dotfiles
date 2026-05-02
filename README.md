@@ -19,8 +19,8 @@ files/
 ## zshrc 周辺のセットアップ
 
 - `files/.zshrc_new`: Oh My Zsh 依存を外した zshrc（手動でプラグインを読み込む前提）
-- `install-zshrc-plugins.zsh`: zshrc 用プラグイン（`zsh-autosuggestions` / `zsh-syntax-highlighting`）を
-  固定バージョンで `~/.zsh/plugins/` に配置するスクリプト
+- `installers/zshrc-plugins.zsh`: zshrc 用プラグイン（`zsh-autosuggestions` / `zsh-syntax-highlighting`）を
+  固定バージョンで `~/.zsh/plugins/` に配置する installer
 
 ## link について
 
