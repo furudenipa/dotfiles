@@ -1,37 +1,24 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# Enable completion (Oh My Zsh usually runs this for you).
+autoload -Uz compinit && compinit
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# Colorized ls (aligned with Oh My Zsh defaults).
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+if ls --color -d . >/dev/null 2>&1; then
+  alias ls='ls -l --color=auto'
+elif ls -G -d . >/dev/null 2>&1; then
+  alias ls='ls -lG'
+fi
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-COMPLETION_WAITING_DOTS="true"
+# --- plugins (manual) ---
+ZSH_PLUGIN_DIR="$HOME/.zsh/plugins"
+# zsh-autosuggestions
+if [[ -r "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting   
-)
-
-source $ZSH/oh-my-zsh.sh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -39,6 +26,21 @@ export NVM_DIR="$HOME/.nvm"
 
 autoload -Uz vcs_info
 setopt PROMPT_SUBST
+
+# --- history ---
+# history の保存先と保持件数
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=20000
+export SAVEHIST=20000
+
+# タブ/ペイン/セッション間で history を共有
+setopt SHARE_HISTORY
+
+# 直前と重複するコマンドは記録しない
+setopt HIST_IGNORE_DUPS
+
+# 実行時刻などの拡張情報を保存
+setopt EXTENDED_HISTORY
 
 zstyle ':vcs_info:git:*' formats ' %F{204}(%b)%f'
 zstyle ':vcs_info:*' enable git
@@ -62,11 +64,61 @@ alias k='kubectl'
 alias kg='kubectl get'
 alias kd='kubectl describe'
 
+# dotfiles install wrapper (only when repo root is current directory)
+install() {
+  if [[ -f "$PWD/install.zsh" && -d "$PWD/installers" ]]; then
+    command zsh "$PWD/install.zsh" "$@"
+    return $?
+  fi
+  command install "$@"
+}
+
+_dotfiles_install() {
+  if [[ -f "$PWD/install.zsh" && -d "$PWD/installers" ]]; then
+    local -a pkgs
+    local -a profiles
+    pkgs=(${(f)"$(command ls -1 "$PWD"/installers/*.zsh 2>/dev/null | sed 's#.*/##;s#\\.zsh$##')"})
+    profiles=(${(f)"$(command ls -1 "$PWD"/profiles/*.yaml 2>/dev/null | sed 's#.*/##;s#\\.yaml$##')"})
+    _arguments -s \
+      "-P[profile]:profile:(${profiles})" \
+      "1:package:(${pkgs})"
+    return
+  fi
+  _files
+}
+compdef _dotfiles_install install
+
 # Created by `pipx` on 2025-05-03 13:43:24
 export PATH="$HOME/.local/bin:$PATH"
 
 # fastfetch
 [[ -o interactive ]] && fastfetch
 
+# iTerm2 shell integration
+ITERM2_INTEGRATION="$HOME/.zsh/iterm2/iterm2_shell_integration.zsh"
+if [[ $TERM_PROGRAM == "iTerm.app" && -f "$ITERM2_INTEGRATION" ]]; then
+  source "$ITERM2_INTEGRATION"
+fi
+unset ITERM2_INTEGRATION
+
 # Added by Antigravity
 export PATH="/Users/mk/.antigravity/antigravity/bin:$PATH"
+
+# zsh-syntax-highlighting (must be sourced last)
+if [[ -r "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+# cr: ghq管理リポジトリへfzfで移動
+cr() {
+  command -v ghq >/dev/null || { echo "ghq not found"; return 127; }
+  command -v fzf >/dev/null || { echo "fzf not found"; return 127; }
+
+  local selected full
+  selected=$(ghq list | fzf --reverse --query "$*") || return 0
+  [[ -n "$selected" ]] || return 0
+
+  full=$(ghq list --full-path --exact "$selected") || return 1
+  cd "$full" || return 1
+}
+export PATH="$HOME/go/bin:$PATH"

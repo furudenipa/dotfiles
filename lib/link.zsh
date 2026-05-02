@@ -14,17 +14,15 @@ create_symlink() {
     fi
 
     # If a .bak already exists, create a timestamped backup to avoid clobbering it.
-    if [[ -e "$backup_file" ]]; then
+    if [[ -e "$backup_file" || -L "$backup_file" ]]; then
       local timestamp candidate i
       timestamp="$(date "+%Y%m%d-%H%M%S")"
       candidate="${backup_file}.${timestamp}"
-      if [[ -e "$candidate" ]]; then
-        i=1
-        while [[ -e "${candidate}.${i}" ]]; do
-          ((i++))
-        done
-        candidate="${candidate}.${i}"
-      fi
+      i=1
+      while [[ -e "$candidate" || -L "$candidate" ]]; do
+        candidate="${backup_file}.${timestamp}.${i}"
+        ((i++))
+      done
       backup_file="$candidate"
     fi
     mv "$destination_path" "$backup_file"
