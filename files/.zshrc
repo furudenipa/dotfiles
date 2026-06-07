@@ -122,3 +122,7 @@ cr() {
   cd "$full" || return 1
 }
 export PATH="$HOME/go/bin:$PATH"
+export PATH="/Library/TeX/texbin:$PATH"
+
+# vimトレーニング
+alias nano='vim'
