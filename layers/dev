@@ -1,6 +1,8 @@
 # developer tools
 gh
 ghq
+vim
+neovim
 fzf
 jq
 yq
