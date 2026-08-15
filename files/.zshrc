@@ -121,6 +121,14 @@ cr() {
   full=$(ghq list --full-path --exact "$selected") || return 1
   cd "$full" || return 1
 }
+
+# qr: 文字列をターミナル上にQRコードとして表示
+qr() {
+  (( $# > 0 )) || { echo 'usage: qr "文字列"'; return 1; }
+  command -v qrencode >/dev/null || { echo "qrencode not found"; return 127; }
+
+  command qrencode -t UTF8 -- "$*"
+}
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/Library/TeX/texbin:$PATH"
 
