@@ -1,3 +1,5 @@
 # macOS-specific installers
 ghostty
 iterm2
+pngpaste
+zxing-cpp

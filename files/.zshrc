@@ -129,6 +129,52 @@ qr() {
 
   command qrencode -t UTF8 -- "$*"
 }
+
+# qrr: クリップボード画像内の最初のQRコードを読み取る
+qrr() {
+  command -v pngpaste >/dev/null 2>&1 || { echo "qrr: pngpaste not found (run: install pngpaste)" >&2; return 127; }
+  command -v ZXingReader >/dev/null 2>&1 || { echo "qrr: ZXingReader not found (run: install zxing-cpp)" >&2; return 127; }
+  command -v jq >/dev/null 2>&1 || { echo "qrr: jq not found (run: install jq)" >&2; return 127; }
+  command -v pbcopy >/dev/null 2>&1 || { echo "qrr: pbcopy not found" >&2; return 127; }
+
+  local tmpdir image_file json_file result_file
+  tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/qrr.XXXXXXXX") || {
+    echo "qrr: failed to create temporary directory" >&2
+    return 1
+  }
+  image_file="$tmpdir/clipboard.png"
+  json_file="$tmpdir/result.json"
+  result_file="$tmpdir/result.txt"
+
+  {
+    if ! command pngpaste "$image_file" >/dev/null 2>&1; then
+      echo "qrr: clipboard does not contain an image" >&2
+      return 1
+    fi
+
+    # -single により、複数ある場合は最初に検出されたQRコードだけを返す。
+    if ! command ZXingReader -formats QRCode -single -json "$image_file" >"$json_file" 2>/dev/null ||
+       [[ ! -s "$json_file" ]]; then
+      echo "qrr: QR code not found" >&2
+      return 1
+    fi
+
+    if ! command jq -erj '.Text' "$json_file" >"$result_file" 2>/dev/null; then
+      echo "qrr: failed to decode QR code" >&2
+      return 1
+    fi
+
+    if ! command pbcopy <"$result_file"; then
+      echo "qrr: failed to copy result to clipboard" >&2
+      return 1
+    fi
+
+    # jq -r は表示用の改行だけを加える。クリップボードには元の文字列を保存済み。
+    command jq -er '.Text' "$json_file"
+  } always {
+    command rm -rf -- "$tmpdir"
+  }
+}
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/Library/TeX/texbin:$PATH"
 
