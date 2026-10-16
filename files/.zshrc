@@ -176,6 +176,10 @@ qrr() {
   }
 }
 
+# ディレクトリのショートカット
+hash -d furudenipa="$HOME/src/github.com/furudenipa"
+hash -d src="$HOME/src"
+
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/Library/TeX/texbin:$PATH"
 
