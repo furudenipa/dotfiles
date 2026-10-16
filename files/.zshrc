@@ -175,8 +175,13 @@ qrr() {
     command rm -rf -- "$tmpdir"
   }
 }
+
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/Library/TeX/texbin:$PATH"
 
 # vimトレーニング
 alias nano='vim'
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
