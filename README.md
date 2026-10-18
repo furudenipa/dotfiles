@@ -81,15 +81,8 @@ zsh install.zsh ghostty
 
 # zshのプラグインだけ導入する場合
 zsh install.zsh zshrc-plugins
-```
 
-指定する名前は `installers/` 内のファイル名から `.zsh` を除いたもの。
-`installers/` のファイルを直接実行せず、`install.zsh` を使う。
-
-このリポジトリの `.zshrc` を読み込んだ後は、ルートディレクトリ内で短く書ける。
-`install` の引数はTabキーで補完できる。
-
-```sh
+# ルートディレクトリ内ではinstallコマンドで書ける
 install jq
 ```
 
