@@ -11,3 +11,5 @@ qrencode
 fastfetch
 uv
 golangci-lint
+gitleaks
+pre-commit

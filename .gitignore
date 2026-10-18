@@ -7,3 +7,36 @@ Icon?
 # macOS system folders
 .Spotlight-V100
 .Trashes
+
+# Local environment secrets (keep sanitized templates trackable)
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# SSH / TLS private keys (including custom names inside .ssh)
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.pem
+*.key
+**/.ssh/*
+!**/.ssh/config
+!**/.ssh/*.pub
+
+# Cloud / application credentials
+**/.aws/credentials
+**/.aws/sso/cache/
+**/.aws/cli/cache/
+**/.config/gcloud/
+**/.azure/
+**/.kube/config
+**/.docker/config.json
+credentials.json
+application_default_credentials.json
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json

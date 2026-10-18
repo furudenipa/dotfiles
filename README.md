@@ -46,3 +46,18 @@ files/
 
 - curl
 - brew
+
+## 機密情報の誤コミット防止
+
+機密情報の誤コミット防止のために、Gitleaksとpre-commitを導入しています。
+macOSではDevレイヤーのセットアップ、または以下の個別installerで導入できます。
+Linux用のinstallerは現在未実装のため、公式の配布手順で両ツールを導入してください。
+
+```sh
+zsh install.zsh gitleaks
+zsh install.zsh pre-commit
+# このリポジトリ内で、cloneした各端末ごとに必ず実行
+pre-commit install
+# 初回は既存のGit履歴も確認
+gitleaks git . --redact --log-opts="--all"
+```
