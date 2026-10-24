@@ -24,6 +24,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Use the maintained CA bundle even when an older pip is invoked.
+if [[ -r /opt/homebrew/etc/ca-certificates/cert.pem ]]; then
+  export PIP_CERT=/opt/homebrew/etc/ca-certificates/cert.pem
+fi
+
 autoload -Uz vcs_info
 setopt PROMPT_SUBST
 
